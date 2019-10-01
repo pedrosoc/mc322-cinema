@@ -85,6 +85,8 @@ public class TerminalCinema {
         }
     }
 
+    // Tirar esse método para um Utils, pois usaremos no controller para pegar dados
+
     private int getSimpleInt(String str) {
         try {
             Reader r = new BufferedReader(new InputStreamReader(System.in));
