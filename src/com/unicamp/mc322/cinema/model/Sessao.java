@@ -61,6 +61,11 @@ public class Sessao {
 		this.qtdIngressosVendidos = qtdIngressosVendidos;
 	}
 	
+	public void addIngressoVendido(Ingresso ingresso) {
+		this.ingressosVendidos.add(ingresso);
+		this.qtdIngressosVendidos++;
+	}
+	
 	public boolean equals(Sessao sessao) {
 		if(sessao == null)
 			return false;

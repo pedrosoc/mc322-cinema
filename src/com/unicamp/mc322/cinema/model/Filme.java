@@ -11,12 +11,10 @@ public class Filme {
 	private List<String> atores;
 	private String genero;
 	private int classificacaoIndicativa;
-
 	
 	public Filme() {
 		this.atores = new ArrayList<String>();
 	}
-	
 	
 	public String getNome() {
 		return nome;
