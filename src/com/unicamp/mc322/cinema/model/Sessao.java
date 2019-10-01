@@ -61,4 +61,17 @@ public class Sessao {
 		this.qtdIngressosVendidos = qtdIngressosVendidos;
 	}
 	
+	public boolean equals(Sessao sessao) {
+		if(sessao == null)
+			return false;
+		if(!(sessao instanceof Sessao))
+			return false;
+		if(sessao.getNumeroSala()!= this.getNumeroSala())
+			return false;
+		if(sessao.getHorario().compareTo(sessao.getHorario()) != 0)
+			return false;
+		
+		return true;
+	}
+	
 }
