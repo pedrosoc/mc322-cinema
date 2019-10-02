@@ -23,5 +23,15 @@ public class Carrinho {
 			System.out
 					.println("Comprador: " + ig.getComprador() + " Tipo: " + ig.getTipo() + " Preco: " + ig.getPreco());
 		}
+		System.out.println("Preco Total: "+this.precoTotal);
+	}
+	
+	public List<Ingresso> getIngressos(){
+		return this.ingressos;
+	}
+	
+	public void limparCarrinho() {
+		this.ingressos.clear();
+		
 	}
 }
