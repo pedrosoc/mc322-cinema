@@ -27,12 +27,17 @@ public class CinemaController {
         this.cinema = cinema;
     }
 
-    public List<Ingresso> reservarIngresso() {
+    public List<Ingresso> reservarIngresso(List<Ingresso> ingressosCarrinho) {
 
         Filme filme = this.selecionarFilme();
-        Sessao sessao = this.selecionarSessao(filme);
+        Sessao sessao = this.selecionarSessao(filme, ingressosCarrinho);
 
-        int qtdIngressos = this.selecionarQuantidadeIngressos(sessao);
+        List<Ingresso> ingressosSessao = ingressosCarrinho
+                .stream()
+                .filter(i -> sessao.equals(i.getSessao()))
+                .collect(Collectors.toList());
+
+        int qtdIngressos = this.selecionarQuantidadeIngressos(sessao, ingressosSessao.size());
 
         return this.separarIngressos(sessao, qtdIngressos);
     }
@@ -86,19 +91,19 @@ public class CinemaController {
         return null;
     }
 
-    private int selecionarQuantidadeIngressos(Sessao sessao) {
+    private int selecionarQuantidadeIngressos(Sessao sessao, int carrinho) {
         while (true) {
             System.out.println();
 
             int op = getSimpleInt("quantos ingressos deseja adquirir");
 
-            int disponiveis = sessao.getQtdIngressosDisponiveis();
             if (op <= 0) {
                 System.out.println();
                 System.out.println("Você deve comprar no minimo 1 ingresso");
                 continue;
             }
 
+            int disponiveis = sessao.getQtdIngressosDisponiveis() - carrinho;
             if (op > disponiveis) {
                 System.out.println();
                 System.out.println(String.format("Sala possue apenas %d ingressos disponíveis.", disponiveis));
@@ -136,7 +141,7 @@ public class CinemaController {
         }
     }
 
-    private Sessao selecionarSessao(Filme filme) {
+    private Sessao selecionarSessao(Filme filme, List<Ingresso> ingressosCarrinho) {
         while (true) {
             System.out.println();
             System.out.println("Selecione a sessão");
@@ -155,11 +160,17 @@ public class CinemaController {
             for (int i = 0; i < sessoes.size(); i++) {
                 Sessao sessao = sessoes.get(i);
 
+                List<Ingresso> ingressosSessao = ingressosCarrinho
+                        .stream()
+                        .filter(a -> sessao.equals(a.getSessao()))
+                        .collect(Collectors.toList());
+
                 SimpleDateFormat diaFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
                 String dia = diaFormatter.format(sessao.getHorario());
 
-                System.out.println(String.format("%d - Dia: %s - Ingressos disponíveis: %d", i, dia, sessao.getQtdIngressosDisponiveis()));
+                int disponiveis = sessao.getQtdIngressosDisponiveis() - ingressosSessao.size();
+                System.out.println(String.format("%d - Dia: %s - Ingressos disponíveis: %d", i, dia, disponiveis));
             }
 
             System.out.println();
@@ -173,7 +184,13 @@ public class CinemaController {
             }
 
             Sessao sessao = sessoes.get(op);
-            if (sessao.getQtdIngressosDisponiveis() <= 0) {
+
+            List<Ingresso> ingressosSessao = ingressosCarrinho
+                    .stream()
+                    .filter(a -> sessao.equals(a.getSessao()))
+                    .collect(Collectors.toList());
+
+            if (sessao.getQtdIngressosDisponiveis() - ingressosSessao.size() <= 0) {
                 System.out.println();
                 System.out.println("Essa sessão não possue mais ingressos disponíveis, por favor, selecione outra!");
                 continue;

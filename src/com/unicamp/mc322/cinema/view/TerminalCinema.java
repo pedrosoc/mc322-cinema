@@ -34,7 +34,8 @@ public class TerminalCinema {
                     // - Talvez seja necessario criar um tipo de ingresso pro carrinho, pois ele precisará
                     //   saber para qual filme/sessao o usuario deseja comprar o ingresso
 
-                    List<Ingresso> ingressos = cinemaController.reservarIngresso();
+                    List<Ingresso> ingressosJaReservados = carrinhoController.getIngressos();
+                    List<Ingresso> ingressos = cinemaController.reservarIngresso(ingressosJaReservados);
                     carrinhoController.adicionarIngresso(ingressos);
                     break;
 
