@@ -47,12 +47,12 @@ public class TerminalCinema {
                     // - Nessa momento devera escolher a forma de pagamento e pagar
 
                     List<Ingresso> ingressosCarrinho = carrinhoController.getIngressos();
-                    cinemaController.finalizarCompra(ingressosCarrinho);
+                    if (cinemaController.finalizarCompra(ingressosCarrinho))
+                        carrinhoController.realizarPagamento();
+
                     break;
 
                 case 4:
-                    List<Ingresso> ingressosReservados = carrinhoController.getIngressos();
-                    cinemaController.cancelarReservas(ingressosReservados);
                     carrinhoController.limparCarrinho();
                     break;
             }

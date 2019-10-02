@@ -4,12 +4,9 @@ import com.unicamp.mc322.cinema.model.Carrinho;
 import com.unicamp.mc322.cinema.model.Ingresso;
 import com.unicamp.mc322.cinema.model.Pagador;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StreamTokenizer;
 import java.util.List;
+
+import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleInt;
 
 public class CarrinhoController {
 	
@@ -39,7 +36,7 @@ public class CarrinhoController {
     }
     
     public void realizarPagamento() {
-    	int forma = formaPagamento();
+    	int forma = this.formaPagamento();
     	boolean sucesso= false;
     	if(forma == 0) {
     		sucesso = Pagador.pagarViaCartao(this.carrinho);
@@ -52,19 +49,24 @@ public class CarrinhoController {
     	}
     }
     
-    private static int formaPagamento() {
-        try {
-            Reader r = new BufferedReader(new InputStreamReader(System.in));
-            StreamTokenizer st = new StreamTokenizer(r);
-            System.out.println("Qual metodo de pagamento deseja realizar? ");
-            System.out.println(String.format("0-Cartao 1-Boleto"));
+    private int formaPagamento() {
+        while (true) {
+            System.out.println();
+            System.out.println("Qual metodo de pagamento deseja realizar?");
+            System.out.println("Digite:");
+            System.out.println("0 - Cartão");
+            System.out.println("1 - Boleto");
+            System.out.println();
 
-            st.nextToken();
+            int op = getSimpleInt("a opção desejada");
 
-            return ((int) st.nval);
-        } catch (IOException e) {
-            System.out.println("Erro na leitura do teclado");
-            return (0);
+            if (op != 0 && op != 1) {
+                System.out.println();
+                System.out.println("Opção inválida!");
+                continue;
+            }
+
+            return op;
         }
     }
 
