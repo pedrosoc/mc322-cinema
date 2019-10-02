@@ -22,10 +22,17 @@ public class Carrinho {
 	}
 
 	public void listarItens() {
-		for (Ingresso ig : this.ingressos) {
-			System.out
-					.println("Comprador: " + ig.getComprador().getNome() + " Tipo: " + ig.getTipo() + " Preco: " + ig.getPreco() + " reais");
+		for (int i = 0; i < this.ingressos.size(); i++) {
+			Ingresso ig = this.ingressos.get(i);
+
+			System.out.println();
+			System.out.println(String.format("Ingresso nº %d", i + 1));
+			System.out.println(String.format("Comprador: %s", ig.getComprador().getNome()));
+			System.out.println(String.format("Tipo: %s", ig.getTipo()));
+			System.out.println(String.format("Preco: R$ %.2f", ig.getPreco()));
 		}
+
+		System.out.println();
 		System.out.println("Preco Total: "+this.precoTotal);
 	}
 	

@@ -11,7 +11,6 @@ import com.unicamp.mc322.cinema.model.Sessao;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,6 @@ public class CinemaController {
 
         Filme filme = this.selecionarFilme();
         Sessao sessao = this.selecionarSessao(filme);
-        Sala sala = this.selecionarSalaPorSessao(sessao);
 
         int qtdIngressos = this.selecionarQuantidadeIngressos(sessao);
 
@@ -44,7 +42,7 @@ public class CinemaController {
 
         for (int i = 0; i < qtdIngressos; i++) {
             System.out.println();
-            System.out.println(String.format("Compra no ingresso nº %d", i));
+            System.out.println(String.format("Compra no ingresso nº %d", i + 1));
             System.out.println();
 
             String nome = getSimpleString("o seu nome");
@@ -94,8 +92,18 @@ public class CinemaController {
 
             int op = getSimpleInt("quantos ingressos deseja adquirir");
 
-            if (op <= 0 && op > sessao.getQtdIngressosDisponiveis())
+            int disponiveis = sessao.getQtdIngressosDisponiveis();
+            if (op <= 0) {
+                System.out.println();
+                System.out.println("Você deve comprar no minimo 1 ingresso");
                 continue;
+            }
+
+            if (op > disponiveis) {
+                System.out.println();
+                System.out.println(String.format("Sala possue apenas %d ingressos disponíveis.", disponiveis));
+                continue;
+            }
 
             return op;
         }
@@ -118,8 +126,11 @@ public class CinemaController {
 
             int op = getSimpleInt("a opção desejada");
 
-            if (op < 0 && op >= filmes.size())
+            if (op < 0 || op >= filmes.size()) {
+                System.out.println();
+                System.out.println("Selecione uma das opções indicadas.");
                 continue;
+            }
 
             return filmes.get(op);
         }
@@ -148,26 +159,48 @@ public class CinemaController {
 
                 String dia = diaFormatter.format(sessao.getHorario());
 
-                System.out.println(String.format("%d - Dia: %s", i, dia));
+                System.out.println(String.format("%d - Dia: %s - Ingressos disponíveis: %d", i, dia, sessao.getQtdIngressosDisponiveis()));
             }
 
             System.out.println();
 
             int op = getSimpleInt("a opção desejada");
 
-            if (op < 0 && op >= sessoes.size())
+            if (op < 0 || op >= sessoes.size()) {
+                System.out.println();
+                System.out.println("Selecione uma das opções indicadas.");
                 continue;
+            }
 
-            return sessoes.get(op);
+            Sessao sessao = sessoes.get(op);
+            if (sessao.getQtdIngressosDisponiveis() <= 0) {
+                System.out.println();
+                System.out.println("Essa sessão não possue mais ingressos disponíveis, por favor, selecione outra!");
+                continue;
+            }
+
+            return sessao;
         }
     }
 
     public boolean finalizarCompra(List<Ingresso> ingressos) {
+        List<Sala> salas = cinema.getSalas();
+
+
+        for (Ingresso ingresso: ingressos) {
+            Optional<Sessao> first = salas
+                    .stream()
+                    .flatMap(s -> s.getSessoes().stream())
+                    .filter(s -> s.equals(ingresso.getSessao()))
+                    .findFirst();
+
+            if (first.isPresent()) {
+                Sessao sessao = first.get();
+                sessao.addIngressoVendido(ingresso);
+            }
+        }
+
         return true;
-    }
-
-    public void cancelarReservas(List<Ingresso> ingressos) {
-
     }
 
 }

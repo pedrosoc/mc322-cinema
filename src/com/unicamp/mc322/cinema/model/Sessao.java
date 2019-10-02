@@ -63,7 +63,7 @@ public class Sessao {
 	
 	public void addIngressoVendido(Ingresso ingresso) {
 		this.ingressosVendidos.add(ingresso);
-		this.qtdIngressosDisponiveis++;
+		this.qtdIngressosDisponiveis--;
 	}
 	
 	public boolean equals(Sessao sessao) {
