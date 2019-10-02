@@ -42,6 +42,7 @@ public class Carrinho {
 	
 	public void limparCarrinho() {
 		this.ingressos.clear();
+		precoTotal = 0;
 		
 	}
 }
