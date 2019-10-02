@@ -4,11 +4,13 @@ public abstract class Ingresso {
 
 	private float preco;
 	private Pessoa comprador;
+	private Sessao sessao;
 	
-	public Ingresso(float preco, Pessoa comprador) {
+	public Ingresso(float preco, Pessoa comprador, Sessao sessao) {
 		super();
 		this.preco = preco;
 		this.comprador = comprador;
+		this.setSessao(sessao);
 	}
 	
 	public float getPreco() {
@@ -25,6 +27,15 @@ public abstract class Ingresso {
 	
 	public void setComprador(Pessoa comprador) {
 		this.comprador = comprador;
+	}
+	public abstract String getTipo();
+
+	public Sessao getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(Sessao sessao) {
+		this.sessao = sessao;
 	}
 	
 }
