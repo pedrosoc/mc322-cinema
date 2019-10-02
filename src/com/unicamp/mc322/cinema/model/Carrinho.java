@@ -13,15 +13,18 @@ public class Carrinho {
 
 	}
 
-	public void addIngresso(Ingresso ingresso) {
-		ingressos.add(ingresso);
-		precoTotal += ingresso.getPreco();
+	public void addIngresso(List<Ingresso> ingressos) {
+		this.ingressos.addAll(ingressos);
+
+		for (Ingresso ingresso: ingressos) {
+			this.precoTotal += ingresso.getPreco();
+		}
 	}
 
 	public void listarItens() {
 		for (Ingresso ig : this.ingressos) {
 			System.out
-					.println("Comprador: " + ig.getComprador() + " Tipo: " + ig.getTipo() + " Preco: " + ig.getPreco());
+					.println("Comprador: " + ig.getComprador().getNome() + " Tipo: " + ig.getTipo() + " Preco: " + ig.getPreco() + " reais");
 		}
 		System.out.println("Preco Total: "+this.precoTotal);
 	}

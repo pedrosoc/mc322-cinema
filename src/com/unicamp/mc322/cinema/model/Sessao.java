@@ -9,7 +9,7 @@ public class Sessao {
 	private int numeroSala;
 	private Filme filme;
 	private List<Ingresso> ingressosVendidos;
-	private int qtdIngressosVendidos;
+	private int qtdIngressosDisponiveis;
 	private Date horario;
 	
 	public Sessao(int numeroSala, Filme filme, Date horario) {
@@ -17,7 +17,7 @@ public class Sessao {
 		this.numeroSala = numeroSala;
 		this.filme = filme;
 		this.ingressosVendidos = new ArrayList<>();
-		this.qtdIngressosVendidos = 0;
+		this.qtdIngressosDisponiveis = 0;
 		this.horario = horario;
 	}
 
@@ -53,17 +53,17 @@ public class Sessao {
 		this.horario = horario;
 	}
 
-	public int getQtdIngressosVendidos() {
-		return qtdIngressosVendidos;
+	public int getQtdIngressosDisponiveis() {
+		return qtdIngressosDisponiveis;
 	}
 
-	public void setQtdIngressosVendidos(int qtdIngressosVendidos) {
-		this.qtdIngressosVendidos = qtdIngressosVendidos;
+	public void setQtdIngressosDisponiveis(int qtdIngressosDisponiveis) {
+		this.qtdIngressosDisponiveis = qtdIngressosDisponiveis;
 	}
 	
 	public void addIngressoVendido(Ingresso ingresso) {
 		this.ingressosVendidos.add(ingresso);
-		this.qtdIngressosVendidos++;
+		this.qtdIngressosDisponiveis++;
 	}
 	
 	public boolean equals(Sessao sessao) {

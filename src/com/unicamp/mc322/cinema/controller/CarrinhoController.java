@@ -20,7 +20,8 @@ public class CarrinhoController {
     }
 
     public void exibir() {
-    	System.out.println("Seu carrinho contem: ");
+        System.out.println();
+        System.out.println("Seu carrinho contem: ");
     	this.carrinho.listarItens();
     }
 
@@ -28,8 +29,8 @@ public class CarrinhoController {
     	return carrinho.getIngressos();
     }
     
-    public void adicionarIngresso(Ingresso ingresso) {
-		this.carrinho.addIngresso(ingresso);
+    public void adicionarIngresso(List<Ingresso> ingressos) {
+		this.carrinho.addIngresso(ingressos);
 		
 	}
 

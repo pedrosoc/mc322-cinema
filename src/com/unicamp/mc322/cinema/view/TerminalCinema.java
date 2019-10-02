@@ -35,7 +35,7 @@ public class TerminalCinema {
                     //   saber para qual filme/sessao o usuario deseja comprar o ingresso
 
                     List<Ingresso> ingressos = cinemaController.reservarIngresso();
-                    carrinhoController.adicionarIngressos(ingressos);
+                    carrinhoController.adicionarIngresso(ingressos);
                     break;
 
                 case 2:
@@ -56,6 +56,8 @@ public class TerminalCinema {
                     carrinhoController.limparCarrinho();
                     break;
             }
+
+            operacao = this.getOperacao();
         }
 	}
 
