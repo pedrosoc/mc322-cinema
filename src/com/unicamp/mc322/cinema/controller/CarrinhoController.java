@@ -1,48 +1,71 @@
 package com.unicamp.mc322.cinema.controller;
 
+import com.unicamp.mc322.cinema.model.Carrinho;
 import com.unicamp.mc322.cinema.model.Ingresso;
+import com.unicamp.mc322.cinema.model.Pagador;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StreamTokenizer;
 import java.util.List;
 
 public class CarrinhoController {
-
-    private List<Ingresso> ingressos;
-
+	
+	private Carrinho carrinho;
+	
     public CarrinhoController() {
-        this.ingressos = new ArrayList<>();
-    }
-
-    public void adicionarIngressos(List<Ingresso> ingressos) {
-        this.ingressos.addAll(ingressos);
-        System.out.println("Ingresso adicionado ao carrinho com sucesso!");
+        this.carrinho = new Carrinho();
     }
 
     public void exibir() {
-        int qtdIngressos = this.ingressos.size();
-
         System.out.println();
-        System.out.println(String.format("Seu carrinho está com %d item(s)", qtdIngressos));
-        System.out.println();
-
-        if (qtdIngressos > 0) {
-            System.out.println("Conteúdo:");
-            for (Ingresso ingresso : this.ingressos) {
-                float preco = ingresso.getPreco();
-                String nome = ingresso.getComprador().getNome();
-
-                System.out.println(String.format("Ingresso no valor de %.2f para %s", preco, nome));
-            }
-        }
+        System.out.println("Seu carrinho contem: ");
+    	this.carrinho.listarItens();
     }
 
     public List<Ingresso> getIngressos() {
-        return Collections.unmodifiableList(this.ingressos);
+    	return carrinho.getIngressos();
     }
+    
+    public void adicionarIngresso(List<Ingresso> ingressos) {
+		this.carrinho.addIngresso(ingressos);
+		
+	}
 
     public void limparCarrinho() {
-        this.ingressos = new ArrayList<>();
-        System.out.println("Carrinho limpo com sucesso!");
+    	carrinho.limparCarrinho();
     }
+    
+    public void realizarPagamento() {
+    	int forma = formaPagamento();
+    	boolean sucesso= false;
+    	if(forma == 0) {
+    		sucesso = Pagador.pagarViaCartao(this.carrinho);
+    	}else if(forma == 1){
+    		sucesso = Pagador.pagarViaBoleto(this.carrinho);
+    	}
+    	
+    	if(sucesso) {
+    		limparCarrinho();
+    	}
+    }
+    
+    private static int formaPagamento() {
+        try {
+            Reader r = new BufferedReader(new InputStreamReader(System.in));
+            StreamTokenizer st = new StreamTokenizer(r);
+            System.out.println("Qual metodo de pagamento deseja realizar? ");
+            System.out.println(String.format("0-Cartao 1-Boleto"));
+
+            st.nextToken();
+
+            return ((int) st.nval);
+        } catch (IOException e) {
+            System.out.println("Erro na leitura do teclado");
+            return (0);
+        }
+    }
+
 }

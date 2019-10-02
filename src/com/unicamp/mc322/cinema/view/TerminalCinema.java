@@ -5,12 +5,9 @@ import com.unicamp.mc322.cinema.controller.CinemaController;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Ingresso;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StreamTokenizer;
 import java.util.List;
+
+import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleInt;
 
 public class TerminalCinema {
 
@@ -18,15 +15,14 @@ public class TerminalCinema {
 
     private CarrinhoController carrinhoController;
 
-	private Cinema cinema;
-
 	public TerminalCinema(Cinema cinema) {
-		this.cinema = cinema;
+        System.out.println(String.format("Seja bem vindo ao %s", cinema.getNome()));
+
+        this.cinemaController = new CinemaController(cinema);
+	    this.carrinhoController = new CarrinhoController();
 	}
 
 	public void iniciar() {
-		System.out.println(String.format("Seja bem vindo ao %s", this.cinema.getNome()));
-
 		int operacao = this.getOperacao();
 
 		while (operacao != 5) {
@@ -39,7 +35,7 @@ public class TerminalCinema {
                     //   saber para qual filme/sessao o usuario deseja comprar o ingresso
 
                     List<Ingresso> ingressos = cinemaController.reservarIngresso();
-                    carrinhoController.adicionarIngressos(ingressos);
+                    carrinhoController.adicionarIngresso(ingressos);
                     break;
 
                 case 2:
@@ -60,6 +56,8 @@ public class TerminalCinema {
                     carrinhoController.limparCarrinho();
                     break;
             }
+
+            operacao = this.getOperacao();
         }
 	}
 
@@ -84,24 +82,5 @@ public class TerminalCinema {
             return op;
         }
     }
-
-    // Tirar esse método para um Utils, pois usaremos no controller para pegar dados
-
-    private int getSimpleInt(String str) {
-        try {
-            Reader r = new BufferedReader(new InputStreamReader(System.in));
-            StreamTokenizer st = new StreamTokenizer(r);
-
-            System.out.print(String.format("Digite %s: ", str));
-
-            st.nextToken();
-
-            return ((int) st.nval);
-        } catch (IOException e) {
-            System.out.println("Erro na leitura do teclado");
-            return (0);
-        }
-    }
-
 
 }

@@ -15,6 +15,11 @@ public class Filme {
 	public Filme() {
 		this.atores = new ArrayList<String>();
 	}
+
+	public Filme(String nome) {
+		this.nome = nome;
+		this.atores = new ArrayList<String>();
+	}
 	
 	public String getNome() {
 		return nome;

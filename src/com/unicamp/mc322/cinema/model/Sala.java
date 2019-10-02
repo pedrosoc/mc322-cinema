@@ -1,5 +1,6 @@
 package com.unicamp.mc322.cinema.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sala {
@@ -9,6 +10,7 @@ public class Sala {
 	
 	public Sala(int numeroSala, int capacidade) {
 		this.setCapacidade(capacidade);
+		this.sessoes = new ArrayList<>();
 		this.numeroSala = numeroSala;
 	}
 	
