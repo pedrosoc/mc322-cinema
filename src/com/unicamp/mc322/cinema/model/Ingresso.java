@@ -12,6 +12,8 @@ public abstract class Ingresso {
 		this.comprador = comprador;
 		this.setSessao(sessao);
 	}
+
+	public abstract String getTipo();
 	
 	public float getPreco() {
 		return preco;
@@ -28,7 +30,6 @@ public abstract class Ingresso {
 	public void setComprador(Pessoa comprador) {
 		this.comprador = comprador;
 	}
-	public abstract String getTipo();
 
 	public Sessao getSessao() {
 		return sessao;
