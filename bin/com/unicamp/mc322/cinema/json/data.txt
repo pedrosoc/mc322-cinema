@@ -1,1 +1,0 @@
-{"usuarios":[{"nome":"Lucas","login":"pedroso","senha":"123","logado":false},{"nome":"Lucas","login":"pedrosoc","senha":"asd","logado":false}]}

@@ -36,18 +36,16 @@ public class CarrinhoController {
     	carrinho.limparCarrinho();
     }
     
-    public void realizarPagamento() throws HandlerException {
-    	int forma = this.formaPagamento();
+    public boolean realizarPagamento() throws HandlerException {
+        int forma = this.formaPagamento();
     	boolean sucesso= false;
     	if(forma == 0) {
     		sucesso = Pagador.pagarViaCartao(this.carrinho);
     	}else if(forma == 1){
     		sucesso = Pagador.pagarViaBoleto(this.carrinho);
     	}
-    	
-    	if(sucesso) {
-    		limparCarrinho();
-    	}
+
+    	return sucesso;
     }
     
     private int formaPagamento() throws HandlerException {
