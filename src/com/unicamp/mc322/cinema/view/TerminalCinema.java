@@ -28,10 +28,12 @@ public class TerminalCinema {
 	}
 
 	public void iniciar() {
-        int operacao = this.getAcaoDeslogado();
+        int operacao = 0;
 
         while (operacao != 3) {
             try {
+                operacao = this.getAcaoDeslogado();
+
                 switch (operacao) {
                     case 1:
                         loginController.cadastrarUsuario();
@@ -41,98 +43,102 @@ public class TerminalCinema {
                         this.escolherAcoes();
                         loginController.deslogarUsuario();
                         break;
+                    default:
+                        break;
                 }
             } catch (HandlerException e) {
                 System.out.println();
                 System.out.println(e.getCause().getMessage());
             }
-
-            operacao = this.getAcaoDeslogado();
         }
     }
 
     private void escolherAcoes() {
-        int operacao = this.getAcaoLogado();
+        int operacao = 0;
 
-		while (operacao != 5) {
-		    switch (operacao) {
-                case 1:
+        while (operacao != 5) {
+		    try {
+                operacao = this.getAcaoLogado();
 
-                    // - Aqui deverá fazer um get do terminalde quantos ingressos o usuario deseja comprar
+                switch (operacao) {
+                    case 1:
 
-                    // - Talvez seja necessario criar um tipo de ingresso pro carrinho, pois ele precisará
-                    //   saber para qual filme/sessao o usuario deseja comprar o ingresso
+                        // - Aqui deverá fazer um get do terminalde quantos ingressos o usuario deseja comprar
 
-                    List<Ingresso> ingressosJaReservados = carrinhoController.getIngressos();
-                    List<Ingresso> ingressos = cinemaController.reservarIngresso(ingressosJaReservados);
-                    carrinhoController.adicionarIngresso(ingressos);
-                    break;
+                        // - Talvez seja necessario criar um tipo de ingresso pro carrinho, pois ele precisará
+                        //   saber para qual filme/sessao o usuario deseja comprar o ingresso
 
-                case 2:
-                    carrinhoController.exibir();
-                    break;
+                        List<Ingresso> ingressosJaReservados = carrinhoController.getIngressos();
+                        List<Ingresso> ingressos = cinemaController.reservarIngresso(ingressosJaReservados);
+                        carrinhoController.adicionarIngresso(ingressos);
+                        break;
 
-                case 3:
+                    case 2:
+                        carrinhoController.exibir();
+                        break;
 
-                    // - Nessa momento devera escolher a forma de pagamento e pagar
+                    case 3:
 
-                    List<Ingresso> ingressosCarrinho = carrinhoController.getIngressos();
-                    if (cinemaController.finalizarCompra(ingressosCarrinho))
-                        carrinhoController.realizarPagamento();
+                        // - Nessa momento devera escolher a forma de pagamento e pagar
 
-                    break;
+                        List<Ingresso> ingressosCarrinho = carrinhoController.getIngressos();
+                        if (cinemaController.finalizarCompra(ingressosCarrinho))
+                            carrinhoController.realizarPagamento();
 
-                case 4:
-                    carrinhoController.limparCarrinho();
-                    break;
+                        break;
+
+                    case 4:
+                        carrinhoController.limparCarrinho();
+                        break;
+
+                    default:
+                        break;
+                }
+            } catch (HandlerException e) {
+                System.out.println();
+                System.out.println(e.getCause().getMessage());
             }
-
-            operacao = this.getAcaoLogado();
         }
 	}
 
-    private int getAcaoLogado() {
+    private int getAcaoLogado() throws HandlerException {
         String nome = this.loginController.getUsuarioLogado().getNome();
 
-        while (true) {
-            System.out.println();
-            System.out.println(String.format("Bem vindo %s", nome));
-            System.out.println();
-            System.out.println("Digite:");
-            System.out.println("1 - Comprar ingresso");
-            System.out.println("2 - Visualizar carrinho");
-            System.out.println("3 - Pagar ingressos do carrinho");
-            System.out.println("4 - Limpar carrinho");
-            System.out.println("5 - Sair");
-            System.out.println();
+        System.out.println();
+        System.out.println(String.format("Bem vindo %s", nome));
+        System.out.println();
+        System.out.println("Digite:");
+        System.out.println("1 - Comprar ingresso");
+        System.out.println("2 - Visualizar carrinho");
+        System.out.println("3 - Pagar ingressos do carrinho");
+        System.out.println("4 - Limpar carrinho");
+        System.out.println("5 - Sair");
+        System.out.println();
 
-            int op = getSimpleInt("a opção desejada");
+        int op = getSimpleInt("a opção desejada");
 
-            if (op != 1 && op != 2 && op != 3 && op != 4 && op != 5)
-                continue;
+        if (op != 1 && op != 2 && op != 3 && op != 4 && op != 5)
+            throw new HandlerException(new Throwable("Opção inválida!"));
 
-            return op;
-        }
+        return op;
     }
 
-    private int getAcaoDeslogado() {
-        while (true) {
-            System.out.println();
-            System.out.println("Menu");
-            System.out.println();
-            System.out.println("Digite:");
-            System.out.println("1 - Cadastrar usuário");
-            System.out.println("2 - Logar");
-            System.out.println("3 - Desligar máquina");
-            System.out.println();
+    private int getAcaoDeslogado() throws HandlerException {
+        System.out.println();
+        System.out.println("Menu");
+        System.out.println();
+        System.out.println("Digite:");
+        System.out.println("1 - Cadastrar usuário");
+        System.out.println("2 - Logar");
+        System.out.println("3 - Desligar máquina");
+        System.out.println();
 
-            int op = getSimpleInt("a opção desejada");
+        int op = getSimpleInt("a opção desejada");
 
-            if (op != 1 && op != 2 && op != 3)
-                continue;
+        if (op != 1 && op != 2 && op != 3)
+            throw new HandlerException(new Throwable("Opção inválida!"));
 
-            return op;
-        }
+        return op;
     }
 
 }

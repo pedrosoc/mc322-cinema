@@ -1,5 +1,6 @@
 package com.unicamp.mc322.cinema.controller;
 
+import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.model.Carrinho;
 import com.unicamp.mc322.cinema.model.Ingresso;
 import com.unicamp.mc322.cinema.model.Pagador;
@@ -35,7 +36,7 @@ public class CarrinhoController {
     	carrinho.limparCarrinho();
     }
     
-    public void realizarPagamento() {
+    public void realizarPagamento() throws HandlerException {
     	int forma = this.formaPagamento();
     	boolean sucesso= false;
     	if(forma == 0) {
@@ -49,25 +50,21 @@ public class CarrinhoController {
     	}
     }
     
-    private int formaPagamento() {
-        while (true) {
-            System.out.println();
-            System.out.println("Qual metodo de pagamento deseja realizar?");
-            System.out.println("Digite:");
-            System.out.println("0 - Cartão");
-            System.out.println("1 - Boleto");
-            System.out.println();
+    private int formaPagamento() throws HandlerException {
+        System.out.println();
+        System.out.println("Qual metodo de pagamento deseja realizar?");
+        System.out.println("Digite:");
+        System.out.println("0 - Cartão");
+        System.out.println("1 - Boleto");
+        System.out.println();
 
-            int op = getSimpleInt("a opção desejada");
+        int op = getSimpleInt("a opção desejada");
 
-            if (op != 0 && op != 1) {
-                System.out.println();
-                System.out.println("Opção inválida!");
-                continue;
-            }
-
-            return op;
+        if (op != 0 && op != 1) {
+            throw new HandlerException(new Throwable("Opção inválida!"));
         }
+
+        return op;
     }
 
 }
