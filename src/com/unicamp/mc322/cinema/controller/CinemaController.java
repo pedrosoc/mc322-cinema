@@ -1,5 +1,6 @@
 package com.unicamp.mc322.cinema.controller;
 
+import com.google.gson.Gson;
 import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Filme;
@@ -9,7 +10,14 @@ import com.unicamp.mc322.cinema.model.IngressoMeia;
 import com.unicamp.mc322.cinema.model.Pessoa;
 import com.unicamp.mc322.cinema.model.Sala;
 import com.unicamp.mc322.cinema.model.Sessao;
+import com.unicamp.mc322.cinema.util.MockUtils;
 
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,13 +29,17 @@ import java.util.stream.Collectors;
 import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleInt;
 import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleString;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 
 public class CinemaController {
 
+    private static final String PATH_FILE = "../json/banco_cinema.txt";
+
     private Cinema cinema;
 
-    public CinemaController(Cinema cinema) {
-        this.cinema = cinema;
+    public CinemaController() {
+        this.cinema = this.getCinemaCadastrado();
     }
 
     public List<Ingresso> reservarIngresso(List<Ingresso> ingressosCarrinho) throws HandlerException {
@@ -59,7 +71,7 @@ public class CinemaController {
             System.out.println(String.format("Compra no ingresso nº %d", i + 1));
             System.out.println();
 
-            String nome = getSimpleString("o seu nome");
+            String nome = getSimpleString("o nome");
             Pessoa pessoa = new Pessoa(nome);
 
             System.out.println();
@@ -143,7 +155,7 @@ public class CinemaController {
         List<Sessao> sessoes = salas
                 .stream()
                 .flatMap(s -> s.getSessoes().stream())
-                .filter(s -> filme.equals(s.getFilme()))
+                .filter(s -> filme.getNome().equals(s.getFilme().getNome()))
                 .sorted(Comparator.comparing(Sessao::getHorario))
                 .collect(Collectors.toList());
 
@@ -212,6 +224,27 @@ public class CinemaController {
         }
 
         return true;
+    }
+
+    private Cinema getCinemaCadastrado() {
+        InputStream is = getClass().getResourceAsStream(PATH_FILE);
+        BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)));
+
+        Cinema cinema = new Gson().fromJson(br, Cinema.class);
+
+        return nonNull(cinema) ? cinema : MockUtils.cinema();
+    }
+
+    public void atualizarCinema() {
+        Gson gson = new Gson();
+        String json = gson.toJson(this.cinema);
+
+        URL path = getClass().getResource(PATH_FILE);
+        try (FileWriter writer = new FileWriter(path.getPath())) {
+            writer.write(json);
+        } catch (IOException e) {
+            System.err.println("IOException");
+        }
     }
 
 }

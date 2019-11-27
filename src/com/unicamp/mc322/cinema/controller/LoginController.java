@@ -22,7 +22,7 @@ import static java.util.Objects.nonNull;
 
 public class LoginController {
 
-    private static final String PATH_FILE = "../json/data.txt";
+    private static final String PATH_FILE = "../json/banco_login.txt";
 
     private Pessoa usuarioLogado;
 

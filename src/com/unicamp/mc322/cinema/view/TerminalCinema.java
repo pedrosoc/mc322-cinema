@@ -19,10 +19,8 @@ public class TerminalCinema {
 
     private LoginController loginController;
 
-	public TerminalCinema(Cinema cinema) {
-        System.out.println(String.format("Seja bem vindo ao %s", cinema.getNome()));
-
-        this.cinemaController = new CinemaController(cinema);
+	public TerminalCinema() {
+        this.cinemaController = new CinemaController();
 	    this.carrinhoController = new CarrinhoController();
 	    this.loginController = new LoginController();
 	}
@@ -84,6 +82,7 @@ public class TerminalCinema {
                         if (cinemaController.finalizarCompra(ingressosCarrinho))
                             if (carrinhoController.realizarPagamento()) {
                                 loginController.registrarCompra(ingressosCarrinho);
+                                cinemaController.atualizarCinema();
                                 carrinhoController.limparCarrinho();
                             }
 

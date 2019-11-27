@@ -8,7 +8,6 @@ public class Sessao {
 
 	private int numeroSala;
 	private Filme filme;
-	private List<Ingresso> ingressosVendidos;
 	private int qtdIngressosDisponiveis;
 	private Date horario;
 	
@@ -16,7 +15,6 @@ public class Sessao {
 		super();
 		this.numeroSala = numeroSala;
 		this.filme = filme;
-		this.ingressosVendidos = new ArrayList<>();
 		this.qtdIngressosDisponiveis = 0;
 		this.horario = horario;
 	}
@@ -37,14 +35,6 @@ public class Sessao {
 		this.filme = filme;
 	}
 
-	public List<Ingresso> getIngressosVendidos() {
-		return ingressosVendidos;
-	}
-
-	public void setIngressosVendidos(List<Ingresso> ingressosVendidos) {
-		this.ingressosVendidos = ingressosVendidos;
-	}
-
 	public Date getHorario() {
 		return horario;
 	}
@@ -62,7 +52,6 @@ public class Sessao {
 	}
 	
 	public void addIngressoVendido(Ingresso ingresso) {
-		this.ingressosVendidos.add(ingresso);
 		this.qtdIngressosDisponiveis--;
 	}
 	
