@@ -3,6 +3,7 @@ package com.unicamp.mc322.cinema.controller;
 import com.google.gson.Gson;
 import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.model.BancoUsuarios;
+import com.unicamp.mc322.cinema.model.Ingresso;
 import com.unicamp.mc322.cinema.model.Pessoa;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -75,6 +77,21 @@ public class LoginController {
 
     public boolean deslogarUsuario() throws HandlerException {
         return this.mudarStatusUsuario(this.usuarioLogado.getLogin(), this.usuarioLogado.getSenha(), false);
+    }
+
+    public void registrarCompra(List<Ingresso> ingressos) {
+        BancoUsuarios bancoUsuarios = this.getUsuarioCadastrados();
+
+        Optional<Pessoa> first = bancoUsuarios
+                .getUsuarios()
+                .stream()
+                .filter(p -> p.getLogin().equals(this.usuarioLogado.getLogin()))
+                .findFirst();
+
+        Pessoa pessoa = first.get();
+        pessoa.adicionarCompras(ingressos);
+
+        this.salvarBancoUsuarios(bancoUsuarios);
     }
 
     private boolean mudarStatusUsuario(String login, String senha, boolean status) throws HandlerException {

@@ -1,1 +1,1 @@
-{"usuarios":[{"nome":"Lucas","login":"pedroso","senha":"123","logado":false},{"nome":"Lucas","login":"pedrosoc","senha":"asd","logado":false}]}
+{"usuarios":[{"nome":"Lucas","login":"l","senha":"1","logado":false,"historicoCompras":["27-11-2019 17:28:12 - Comprou um ingresso Meia no valor de R$ 15,00 para o filme The Jocker, sessão das 27-11-2019 14:27:32, para Lucas","27-11-2019 17:28:12 - Comprou um ingresso Inteira no valor de R$ 30,00 para o filme The Jocker, sessão das 27-11-2019 14:27:32, para Giovanna"]}]}

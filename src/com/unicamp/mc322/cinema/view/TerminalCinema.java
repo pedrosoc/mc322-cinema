@@ -78,7 +78,10 @@ public class TerminalCinema {
 
                     List<Ingresso> ingressosCarrinho = carrinhoController.getIngressos();
                     if (cinemaController.finalizarCompra(ingressosCarrinho))
-                        carrinhoController.realizarPagamento();
+                        if (carrinhoController.realizarPagamento()) {
+                            loginController.registrarCompra(ingressosCarrinho);
+                            carrinhoController.limparCarrinho();
+                        }
 
                     break;
 

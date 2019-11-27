@@ -35,7 +35,7 @@ public class CarrinhoController {
     	carrinho.limparCarrinho();
     }
     
-    public void realizarPagamento() {
+    public boolean realizarPagamento() {
     	int forma = this.formaPagamento();
     	boolean sucesso= false;
     	if(forma == 0) {
@@ -43,10 +43,8 @@ public class CarrinhoController {
     	}else if(forma == 1){
     		sucesso = Pagador.pagarViaBoleto(this.carrinho);
     	}
-    	
-    	if(sucesso) {
-    		limparCarrinho();
-    	}
+
+    	return sucesso;
     }
     
     private int formaPagamento() {
