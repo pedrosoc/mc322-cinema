@@ -1,7 +1,9 @@
 package com.unicamp.mc322.cinema.view;
 
+import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.controller.CarrinhoController;
 import com.unicamp.mc322.cinema.controller.CinemaController;
+import com.unicamp.mc322.cinema.controller.LoginController;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Ingresso;
 
@@ -15,15 +17,42 @@ public class TerminalCinema {
 
     private CarrinhoController carrinhoController;
 
+    private LoginController loginController;
+
 	public TerminalCinema(Cinema cinema) {
         System.out.println(String.format("Seja bem vindo ao %s", cinema.getNome()));
 
         this.cinemaController = new CinemaController(cinema);
 	    this.carrinhoController = new CarrinhoController();
+	    this.loginController = new LoginController();
 	}
 
 	public void iniciar() {
-		int operacao = this.getOperacao();
+        int operacao = this.getAcaoDeslogado();
+
+        while (operacao != 3) {
+            try {
+                switch (operacao) {
+                    case 1:
+                        loginController.cadastrarUsuario();
+                        break;
+                    case 2:
+                        loginController.logarUsuario();
+                        this.escolherAcoes();
+                        loginController.deslogarUsuario();
+                        break;
+                }
+            } catch (HandlerException e) {
+                System.out.println();
+                System.out.println(e.getCause().getMessage());
+            }
+
+            operacao = this.getAcaoDeslogado();
+        }
+    }
+
+    private void escolherAcoes() {
+        int operacao = this.getAcaoLogado();
 
 		while (operacao != 5) {
 		    switch (operacao) {
@@ -58,14 +87,16 @@ public class TerminalCinema {
                     break;
             }
 
-            operacao = this.getOperacao();
+            operacao = this.getAcaoLogado();
         }
 	}
 
-    private int getOperacao() {
+    private int getAcaoLogado() {
+        String nome = this.loginController.getUsuarioLogado().getNome();
+
         while (true) {
             System.out.println();
-            System.out.println("Menu");
+            System.out.println(String.format("Bem vindo %s", nome));
             System.out.println();
             System.out.println("Digite:");
             System.out.println("1 - Comprar ingresso");
@@ -77,7 +108,27 @@ public class TerminalCinema {
 
             int op = getSimpleInt("a opção desejada");
 
-            if (op != 1 && op != 2 && op != 3 && op != 4)
+            if (op != 1 && op != 2 && op != 3 && op != 4 && op != 5)
+                continue;
+
+            return op;
+        }
+    }
+
+    private int getAcaoDeslogado() {
+        while (true) {
+            System.out.println();
+            System.out.println("Menu");
+            System.out.println();
+            System.out.println("Digite:");
+            System.out.println("1 - Cadastrar usuário");
+            System.out.println("2 - Logar");
+            System.out.println("3 - Desligar máquina");
+            System.out.println();
+
+            int op = getSimpleInt("a opção desejada");
+
+            if (op != 1 && op != 2 && op != 3)
                 continue;
 
             return op;
