@@ -15,8 +15,8 @@ public class Principal {
 
         Cinema cinema = new Cinema("Cinemark", "Campinas", "123");
 
-        Filme filme1 = new Filme("It: A coisa");
-        Filme filme2 = new Filme("Rei Leão");
+        Filme filme1 = new Filme("The Jocker");
+        Filme filme2 = new Filme("Avengers");
         Filme filme3 = new Filme("Toy Store");
 
         Date horario1 = new Date();
@@ -25,8 +25,8 @@ public class Principal {
         horario2.setHours(14);
 
         Sessao sessao1 = new Sessao(1, filme1, horario1);
-        Sessao sessao2 = new Sessao(1, filme2, horario2);
-        Sessao sessao3 = new Sessao(2, filme1, horario2);
+        Sessao sessao2 = new Sessao(1, filme1, horario2);
+        Sessao sessao3 = new Sessao(2, filme2, horario2);
 
         sessao1.setQtdIngressosDisponiveis(3);
         sessao2.setQtdIngressosDisponiveis(3);

@@ -13,11 +13,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleInt;
 import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleString;
+import static java.util.Objects.isNull;
 
 public class CinemaController {
 
@@ -29,12 +31,18 @@ public class CinemaController {
 
     public List<Ingresso> reservarIngresso(List<Ingresso> ingressosCarrinho) {
 
-        Filme filme = this.selecionarFilme();
-        Sessao sessao = this.selecionarSessao(filme, ingressosCarrinho);
+        Filme filme;
+        Sessao sessao;
 
+        do {
+            filme = this.selecionarFilme();
+            sessao = this.selecionarSessao(filme, ingressosCarrinho);
+        } while (isNull(sessao));
+
+        Sessao finalSessao = sessao;
         List<Ingresso> ingressosSessao = ingressosCarrinho
                 .stream()
-                .filter(i -> sessao.equals(i.getSessao()))
+                .filter(i -> finalSessao.equals(i.getSessao()))
                 .collect(Collectors.toList());
 
         int qtdIngressos = this.selecionarQuantidadeIngressos(sessao, ingressosSessao.size());
@@ -143,11 +151,6 @@ public class CinemaController {
 
     private Sessao selecionarSessao(Filme filme, List<Ingresso> ingressosCarrinho) {
         while (true) {
-            System.out.println();
-            System.out.println("Selecione a sessão");
-            System.out.println();
-            System.out.println("Digite:");
-
             List<Sala> salas = cinema.getSalas();
 
             List<Sessao> sessoes = salas
@@ -156,6 +159,17 @@ public class CinemaController {
                     .filter(s -> filme.equals(s.getFilme()))
                     .sorted(Comparator.comparing(Sessao::getHorario))
                     .collect(Collectors.toList());
+
+            if (sessoes.size() <= 0) {
+                System.out.println();
+                System.out.println("Ainda não temos nenhuma sessão para esse filme, por favor, selecione outro");
+                return null;
+            }
+
+            System.out.println();
+            System.out.println("Selecione a sessão");
+            System.out.println();
+            System.out.println("Digite:");
 
             for (int i = 0; i < sessoes.size(); i++) {
                 Sessao sessao = sessoes.get(i);
