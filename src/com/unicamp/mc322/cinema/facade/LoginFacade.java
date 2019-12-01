@@ -1,16 +1,11 @@
 package com.unicamp.mc322.cinema.facade;
 
-import static com.unicamp.mc322.cinema.util.StringUtils.isNullOrEmpty;
-import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleString;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.controller.LoginController;
-import com.unicamp.mc322.cinema.model.BancoUsuarios;
 import com.unicamp.mc322.cinema.model.Ingresso;
 import com.unicamp.mc322.cinema.model.Pessoa;
+
+import java.util.List;
 
 public class LoginFacade {
 	

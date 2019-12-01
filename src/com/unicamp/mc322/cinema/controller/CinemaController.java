@@ -9,7 +9,6 @@ import com.unicamp.mc322.cinema.model.IngressoInteira;
 import com.unicamp.mc322.cinema.model.IngressoMeia;
 import com.unicamp.mc322.cinema.model.Pessoa;
 import com.unicamp.mc322.cinema.model.Sala;
-import com.unicamp.mc322.cinema.model.SalaComum;
 import com.unicamp.mc322.cinema.model.Sessao;
 import com.unicamp.mc322.cinema.util.MockUtils;
 

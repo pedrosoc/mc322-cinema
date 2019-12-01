@@ -3,7 +3,6 @@ package com.unicamp.mc322.cinema.facade;
 import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.controller.CarrinhoController;
 import com.unicamp.mc322.cinema.controller.CinemaController;
-import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Ingresso;
 
 import java.util.List;

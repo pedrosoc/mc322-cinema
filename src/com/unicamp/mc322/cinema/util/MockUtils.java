@@ -3,7 +3,6 @@ package com.unicamp.mc322.cinema.util;
 import com.unicamp.mc322.cinema.factory.SalaFactory;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Filme;
-import com.unicamp.mc322.cinema.model.Sala;
 import com.unicamp.mc322.cinema.model.SalaComum;
 import com.unicamp.mc322.cinema.model.Sessao;
 
