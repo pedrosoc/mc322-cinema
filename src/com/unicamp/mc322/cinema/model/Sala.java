@@ -3,7 +3,7 @@ package com.unicamp.mc322.cinema.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sala {
+public class  Sala {
 	private int capacicade;
 	private int numeroSala;
 	private List<Sessao> sessoes;

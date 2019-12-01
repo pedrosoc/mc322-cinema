@@ -4,6 +4,8 @@ import com.sun.xml.internal.ws.handler.HandlerException;
 import com.unicamp.mc322.cinema.controller.CarrinhoController;
 import com.unicamp.mc322.cinema.controller.CinemaController;
 import com.unicamp.mc322.cinema.controller.LoginController;
+import com.unicamp.mc322.cinema.facade.CinemaFacade;
+import com.unicamp.mc322.cinema.facade.LoginFacade;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Ingresso;
 
@@ -13,16 +15,12 @@ import static com.unicamp.mc322.cinema.util.TerminalUtil.getSimpleInt;
 
 public class TerminalCinema {
 
-    private CinemaController cinemaController;
-
-    private CarrinhoController carrinhoController;
-
-    private LoginController loginController;
+   private CinemaFacade cinemaFacade;
+   private LoginFacade loginFacade;
 
 	public TerminalCinema() {
-        this.cinemaController = new CinemaController();
-	    this.carrinhoController = new CarrinhoController();
-	    this.loginController = new LoginController();
+	    this.cinemaFacade = new CinemaFacade();
+        this.loginFacade = new LoginFacade();
 	}
 
 	public void iniciar() {
@@ -34,12 +32,12 @@ public class TerminalCinema {
 
                 switch (operacao) {
                     case 1:
-                        loginController.cadastrarUsuario();
+                    	loginFacade.cadastrarUsuario();
                         break;
                     case 2:
-                        loginController.logarUsuario();
+                    	loginFacade.logarUsuario();
                         this.escolherAcoes();
-                        loginController.deslogarUsuario();
+                        loginFacade.deslogarUsuario();
                         break;
                     default:
                         break;
@@ -66,30 +64,24 @@ public class TerminalCinema {
                         // - Talvez seja necessario criar um tipo de ingresso pro carrinho, pois ele precisará
                         //   saber para qual filme/sessao o usuario deseja comprar o ingresso
 
-                        List<Ingresso> ingressosJaReservados = carrinhoController.getIngressos();
-                        List<Ingresso> ingressos = cinemaController.reservarIngresso(ingressosJaReservados);
-                        carrinhoController.adicionarIngresso(ingressos);
+                        cinemaFacade.reservarIngresso();
                         break;
 
                     case 2:
-                        carrinhoController.exibir();
+                    	cinemaFacade.exibirItensCarrinho();
                         break;
 
                     case 3:
 
                         // - Nessa momento devera escolher a forma de pagamento e pagar
-                        List<Ingresso> ingressosCarrinho = carrinhoController.getIngressos();
-                        if (cinemaController.finalizarCompra(ingressosCarrinho))
-                            if (carrinhoController.realizarPagamento()) {
-                                loginController.registrarCompra(ingressosCarrinho);
-                                cinemaController.atualizarCinema();
-                                carrinhoController.limparCarrinho();
-                            }
+                        List<Ingresso> ingressosCarrinho = cinemaFacade.getIngressosCarrinho();
+                        if (cinemaFacade.finalizarCompra(ingressosCarrinho))
+                            	loginFacade.registrarCompra(ingressosCarrinho);
 
                         break;
 
                     case 4:
-                        carrinhoController.limparCarrinho();
+                    	cinemaFacade.limparCarrinho();
                         break;
 
                     default:
@@ -103,7 +95,7 @@ public class TerminalCinema {
 	}
 
     private int getAcaoLogado() throws HandlerException {
-        String nome = this.loginController.getUsuarioLogado().getNome();
+        String nome = this.loginFacade.getUsuarioLogado().getNome();
 
         System.out.println();
         System.out.println(String.format("Bem vindo %s", nome));

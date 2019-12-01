@@ -1,8 +1,10 @@
 package com.unicamp.mc322.cinema.util;
 
+import com.unicamp.mc322.cinema.factory.SalaFactory;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Filme;
 import com.unicamp.mc322.cinema.model.Sala;
+import com.unicamp.mc322.cinema.model.SalaComum;
 import com.unicamp.mc322.cinema.model.Sessao;
 
 import java.util.Arrays;
@@ -30,8 +32,8 @@ public class MockUtils {
         sessao2.setQtdIngressosDisponiveis(3);
         sessao3.setQtdIngressosDisponiveis(3);
 
-        Sala sala1 = new Sala(1, 3);
-        Sala sala2 = new Sala(2, 3);
+        SalaComum sala1 = SalaFactory.criarSalaComum(1, 3);
+        SalaComum sala2 = SalaFactory.criarSalaComum(2, 3);
 
         sala1.addSessao(sessao1);
         sala1.addSessao(sessao2);
