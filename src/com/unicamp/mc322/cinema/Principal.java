@@ -1,5 +1,6 @@
 package com.unicamp.mc322.cinema;
 
+import com.unicamp.mc322.cinema.factory.SalaFactory;
 import com.unicamp.mc322.cinema.model.Cinema;
 import com.unicamp.mc322.cinema.model.Filme;
 import com.unicamp.mc322.cinema.model.Sala;
@@ -32,8 +33,9 @@ public class Principal {
         sessao2.setQtdIngressosDisponiveis(3);
         sessao3.setQtdIngressosDisponiveis(3);
 
-        Sala sala1 = new Sala(1, 3);
-        Sala sala2 = new Sala(2, 3);
+        
+        Sala sala1 = SalaFactory.criarSalaComum(1, 3);
+        Sala sala2 = SalaFactory.criarSalaComum(2, 3);
 
         sala1.addSessao(sessao1);
         sala1.addSessao(sessao2);
